@@ -1,0 +1,9 @@
+---
+- name: user timesync role
+  hosts: all
+  vars:
+    timesync_ntp_servers:
+        - hostname: node1
+          iburst: yes
+  roles:
+    - rhel-system-roles.timesync

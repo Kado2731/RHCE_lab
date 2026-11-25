@@ -1,0 +1,16 @@
+---
+- name: import balancer roles
+  hosts: dev
+
+  tasks:
+    - name: import role
+      import_role:
+        name: balancer
+
+- name: import phpinfo role
+  hosts: webserver
+
+  tasks:
+    - name: import phpinfo
+      import_role:
+        name: phpinfo

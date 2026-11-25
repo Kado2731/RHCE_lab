@@ -1,0 +1,35 @@
+---
+- name: Install packages in prod group
+  hosts: prod
+  become: true
+
+  tasks:
+    - name: install development
+      yum:
+        name: "@Development tools"
+        state: present
+
+- name: Install packages in dev and test group
+  hosts: dev,test
+  become: true
+
+  tasks:
+    - name: ensure vsftpd is installed
+      yum:
+        name: vsftpd
+        state: present
+
+    - name: ensure mariadb-server is installed
+      yum:
+        name: mariadb-server
+        state: present
+
+- name: update all packages in dev
+  hosts: dev
+  become: true
+
+  tasks:
+    - name: ensure all packages are up to date
+      yum:
+        name: '*'
+        state: latest

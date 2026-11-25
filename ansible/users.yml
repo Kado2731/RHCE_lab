@@ -1,0 +1,40 @@
+---
+- name: create users
+  hosts: dev,test
+  become: true
+  vars_files:
+    - vault.yml
+    - user_list.yml
+
+  tasks:
+    - name: ensure opsdev group is present
+      group:
+        name: opsdev
+        state: present
+    - name: create users
+      loop: "{{ users }}"
+      user:
+        name: "{{ item.name }}"
+        group: opsdev
+        password: "{{ pw_developer | password_hash('sha512') }}"
+      when: item.description == 'developer'
+
+- name: create prod user
+  hosts: prod
+  become: true
+  vars_files:
+    - vault.yml
+    - user_list.yml
+
+  tasks:
+    - name: ensure opsmgr group is present
+      group:
+        name: opsmgr
+        state: present
+    - name: create user
+      loop: "{{ users }}"
+      user:
+        name: "{{ item.name }}"
+        group: opsmgr
+        password: "{{ pw_manager | password_hash('sha512') }}"
+      when: item.description == 'manager'

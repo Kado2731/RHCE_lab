@@ -1,0 +1,29 @@
+---
+- name: create webcontent
+  hosts: dev
+  become: true
+
+  tasks:
+    - name: Ensure devops group is present
+      group:
+        name: devops
+        state: present
+
+    - name: Ensure /devweb directory is present
+      file:
+        path: /devweb
+        state: directory
+        mode: u+rwx,g+rwx,o+rx
+        group: devops
+        setype: httpd_sys_content_t
+
+    - name: create index.html
+      copy:
+        content: "Development"
+        dest: /devweb/index.html
+
+    - name: link 
+      file:
+        src: /devweb
+        dest: /var/www/html/devweb
+        state: link

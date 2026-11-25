@@ -1,0 +1,12 @@
+---
+- name: myhost
+  hosts: all
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: copy template
+      template:
+        src: hosts.j2
+        dest: /etc/myhosts3
+      when: inventory_hostname in groups['dev']

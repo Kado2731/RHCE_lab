@@ -1,0 +1,14 @@
+---
+- name: create cronjob
+  hosts: all
+
+  tasks:
+    - name: student cron every 2minutes
+      cron:
+        name: cronjob
+        weekday: "*"
+        minute: "*/2"
+        hour: "*"
+        user: student
+        job: logger "EX294 in progress"
+        state: present

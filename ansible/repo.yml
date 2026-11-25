@@ -1,0 +1,25 @@
+---
+- name: Create repo
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Create baseOS
+      yum_repository:
+        name: BaseOS
+        description: BaseOS
+        file: RH_local_repo
+        baseurl: file:///mnt/temp_repository/BaseOS
+        gpgcheck: no
+        #gpgkey
+        enabled: yes
+
+    - name: Create AppStream
+      yum_repository:
+        name: AppStream
+        description: AppStream
+        file: RH_local_repo
+        baseurl: file:///mnt/temp_repository/AppStream
+        gpgcheck: no
+        enabled: yes
+        #gpgkey: http

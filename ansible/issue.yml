@@ -1,0 +1,22 @@
+---
+- name: Replace /etc/issue
+  hosts: all
+  
+  tasks:
+    - name: content 1 for dev
+      copy:
+        content: "Development"
+        dest: /etc/issue
+      when: inventory_hostname in groups['dev']
+
+    - name: content 2 for test
+      copy:
+        content: "Test"
+        dest: /etc/issue
+      when: inventory_hostname in groups['test']
+
+    - name: content 2 for prod
+      copy:
+        content: "prod"
+        dest: /etc/issue
+      when: inventory_hostname in groups['prod']
